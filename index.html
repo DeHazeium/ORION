@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O.R.I.O.N. Power</title>
+<style>
+:root{--radius:14px;--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+[data-theme="dark"]{--bg:#0b0d12;--bg-grad:#11141c;--surface:#151922;--surface-2:#1b202b;--border:rgba(255,255,255,.07);--border-strong:rgba(255,255,255,.12);--text:#f3f5f9;--text-2:#9aa3b2;--text-3:#5c6473;--brand:#3b82f6;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444;--shadow:0 1px 0 rgba(255,255,255,.03) inset,0 8px 30px rgba(0,0,0,.35);}
+[data-theme="light"]{--bg:#f4f6fa;--bg-grad:#eef1f7;--surface:#fff;--surface-2:#f7f9fc;--border:rgba(15,23,42,.08);--border-strong:rgba(15,23,42,.14);--text:#0f172a;--text-2:#52607a;--text-3:#94a0b5;--brand:#2563eb;--ok:#059669;--warn:#d97706;--bad:#dc2626;--shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);}
+*{box-sizing:border-box}
+body{font-family:var(--font);margin:0;min-height:100vh;color:var(--text);background:radial-gradient(1200px 600px at 50% -200px,var(--bg-grad),var(--bg)) fixed;-webkit-font-smoothing:antialiased;transition:background .35s,color .35s}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 22px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,var(--brand),#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;letter-spacing:-1px}
+.brand h1{margin:0;font-size:19px;font-weight:700;letter-spacing:-.3px}
+.brand p{margin:1px 0 0;font-size:11.5px;color:var(--text-2);letter-spacing:.6px;text-transform:uppercase;font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.status-pill{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--text-2);background:var(--surface);border:1px solid var(--border);padding:8px 13px;border-radius:999px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent)}
+.dot.off{background:var(--bad);box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 22%,transparent)}
+.theme-btn{width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:.2s}
+.theme-btn:hover{border-color:var(--border-strong);background:var(--surface-2)}
+.alert{display:none;align-items:center;gap:10px;background:color-mix(in srgb,var(--bad) 12%,transparent);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);color:var(--bad);padding:12px 16px;border-radius:12px;margin-bottom:22px;font-size:13.5px;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px;margin-bottom:22px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.metric .label{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-2)}
+.metric .val{font-size:30px;font-weight:700;letter-spacing:-1px;margin-top:14px;line-height:1;font-variant-numeric:tabular-nums}
+.metric .val small{font-size:13px;font-weight:600;color:var(--text-2);margin-left:4px;letter-spacing:0}
+.metric .accent{position:absolute;left:0;top:0;bottom:0;width:3px}
+.a-v{background:var(--warn)}.a-c{background:var(--brand)}.a-p{background:var(--bad)}.a-e{background:var(--ok)}.a-f{background:#a855f7}.a-pf{background:#64748b}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:22px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.panel-head h3{margin:0;font-size:14px;font-weight:700}
+.panel-head .now{font-size:13px;color:var(--text-2);font-weight:600;font-variant-numeric:tabular-nums}
+.panel-head .now b{color:var(--text);font-size:15px}
+.chart-wrap{position:relative;height:200px;margin-top:8px}
+.billing{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+.billing-top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.billing-top h3{margin:0;font-size:14px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.tags{display:flex;gap:9px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:6px 11px;border-radius:7px}
+.tag.t-d{background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--brand)}
+.tag.t-disc{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+.bill-body{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.cost{display:flex;align-items:flex-start;gap:10px}
+.cost .cur{font-size:22px;color:var(--text-2);font-weight:600;margin-top:10px}
+.cost .amt{font-size:56px;font-weight:800;letter-spacing:-2.5px;line-height:.9;font-variant-numeric:tabular-nums}
+.cost .orig{align-self:flex-end;text-decoration:line-through;color:var(--text-3);font-size:18px;font-weight:600;margin-bottom:9px}
+.proj{text-align:right;font-size:12px;color:var(--text-2);line-height:1.7}
+.proj b{display:block;font-size:22px;color:var(--text);font-weight:700;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.fine{font-size:11.5px;color:var(--text-3);margin-top:18px;line-height:1.6}
+@media(max-width:560px){.cost .amt{font-size:42px}.bill-body{flex-direction:column;align-items:flex-start}.proj{text-align:left}}
+</style></head>
+<body data-theme="dark">
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><div class="logo">O</div><div><h1>O.R.I.O.N. Power</h1><p>Telemetry &amp; Energy Analytics</p></div></div>
+    <div class="topbar-right">
+      <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusTxt">Connecting</span></div>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">&#127769;</button>
+    </div>
+  </div>
+  <div class="alert" id="alert"><span>&#9888;</span><span id="alertTxt">Waiting for device data...</span></div>
+  <div class="grid">
+    <div class="metric"><div class="accent a-v"></div><div class="label">Voltage</div><div class="val"><span id="voltage">--</span><small>V</small></div></div>
+    <div class="metric"><div class="accent a-c"></div><div class="label">Current</div><div class="val"><span id="current">--</span><small>A</small></div></div>
+    <div class="metric"><div class="accent a-p"></div><div class="label">Active Power</div><div class="val"><span id="power">--</span><small>W</small></div></div>
+    <div class="metric"><div class="accent a-e"></div><div class="label">Total Energy</div><div class="val"><span id="energy">--</span><small>kWh</small></div></div>
+    <div class="metric"><div class="accent a-f"></div><div class="label">Frequency</div><div class="val"><span id="frequency">--</span><small>Hz</small></div></div>
+    <div class="metric"><div class="accent a-pf"></div><div class="label">Power Factor</div><div class="val"><span id="pf">--</span></div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Power History</h3><div class="now">Now <b id="powerNow">-- W</b></div></div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+  </div>
+  <div class="billing">
+    <div class="billing-top"><h3>Sarawak Energy Billing</h3><div class="tags"><span class="tag t-d">Tariff D</span><span class="tag t-disc">&#8722;25% Initiative</span></div></div>
+    <div class="bill-body">
+      <div class="cost"><span class="cur">RM</span><span class="amt" id="costFinal">0.00</span><span class="orig" id="costOrig">RM 0.00</span></div>
+      <div class="proj">Projected monthly<b id="projMonthly">RM 0.00</b>based on current rate</div>
+    </div>
+    <div class="fine">Real-time calculation against SEB domestic tariff (Tariff D) tiers.<br>Automatic 25% discount applied for Apr&#8211;Dec 2026.</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue, query, limitToLast }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+/* ====== FILL IN YOUR FIREBASE CONFIG (Project settings -> Web app) ====== */
+const firebaseConfig = {
+  apiKey: "AIzaSyB7i7d5tMk1ae6rzvGT2W8mFf7DrvKIBPw",
+  authDomain: "orion-c6028.firebaseapp.com",
+  databaseURL: "https://orion-c6028-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "orion-c6028",
+  storageBucket: "orion-c6028.firebasestorage.app",
+  messagingSenderId: "602710462781",
+  appId: "1:602710462781:web:1372e6c6d1cef15a513554"
+};
+/* ======================================================================= */
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+const $=id=>document.getElementById(id),body=document.body,tBtn=$('themeBtn');
+function setTheme(t){body.dataset.theme=t;tBtn.innerHTML=t==='dark'?'&#127769;':'&#9728;';if(window.chart)themeChart();}
+tBtn.onclick=()=>setTheme(body.dataset.theme==='dark'?'light':'dark');
+
+function cssvar(n){return getComputedStyle(body).getPropertyValue(n).trim();}
+let chart;
+function themeChart(){chart.options.scales.y.grid.color=cssvar('--border');chart.options.scales.y.ticks.color=cssvar('--text-3');chart.update('none');}
+function initChart(){
+  const ctx=$('chart').getContext('2d');
+  const g=ctx.createLinearGradient(0,0,0,200);
+  g.addColorStop(0,'rgba(59,130,246,.35)');g.addColorStop(1,'rgba(59,130,246,0)');
+  chart=new Chart(ctx,{type:'line',data:{labels:[],datasets:[{data:[],borderColor:'#3b82f6',backgroundColor:g,borderWidth:2,fill:true,tension:.35,pointRadius:0,spanGaps:true}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},plugins:{legend:{display:false},tooltip:{enabled:false}},
+      scales:{x:{grid:{display:false},ticks:{display:false}},y:{beginAtZero:true,grid:{color:cssvar('--border')},ticks:{color:cssvar('--text-3'),font:{size:11},maxTicksLimit:5,callback:v=>v+' W'}}}});
+  window.chart=chart;
+}
+function sebBill(kwh){let c=0;if(kwh<=150)c=kwh*.18;else if(kwh<=200)c=27+(kwh-150)*.22;else if(kwh<=300)c=38+(kwh-200)*.25;else if(kwh<=400)c=63+(kwh-300)*.27;else if(kwh<=500)c=90+(kwh-400)*.295;else if(kwh<=700)c=119.5+(kwh-500)*.30;else if(kwh<=800)c=179.5+(kwh-700)*.305;else if(kwh<=1300)c=210+(kwh-800)*.31;else c=365+(kwh-1300)*.315;return c*.75;}
+function showOff(m){$('alert').style.display='flex';$('alertTxt').textContent=m;$('statusDot').className='dot off';$('statusTxt').textContent='Offline';}
+function clearOff(){$('alert').style.display='none';$('statusDot').className='dot';$('statusTxt').textContent='Live';}
+
+initChart();setTheme('dark');
+
+/* ---- LIVE snapshot ---- */
+let lastSeen=0;
+onValue(ref(db,'/live'),snap=>{
+  const d=snap.val();
+  if(!d){showOff('No data in database yet.');return;}
+  lastSeen=Date.now();
+  if(d.online===false){showOff('Sensor offline at device.');return;}
+  clearOff();
+  $('voltage').textContent=(+d.voltage).toFixed(1);
+  $('current').textContent=(+d.current).toFixed(3);
+  $('power').textContent=(+d.power).toFixed(1);
+  $('energy').textContent=(+d.energy).toFixed(3);
+  $('frequency').textContent=(+d.frequency).toFixed(1);
+  $('pf').textContent=(+d.pf).toFixed(2);
+  $('powerNow').textContent=(+d.power).toFixed(0)+' W';
+  $('costFinal').textContent=(+d.billFinal).toFixed(2);
+  $('costOrig').textContent='RM '+(+d.billOriginal).toFixed(2);
+  const monthlyKwh=(+d.power)/1000*24*30;
+  $('projMonthly').textContent='RM '+sebBill(monthlyKwh).toFixed(2);
+});
+
+/* ---- HISTORY for chart (last 60 logged points) ---- */
+onValue(query(ref(db,'/history'),limitToLast(60)),snap=>{
+  const rows=[];
+  snap.forEach(c=>{const v=c.val();rows.push({t:v.t,power:+v.power});});
+  rows.sort((a,b)=>a.t-b.t);
+  chart.data.labels=rows.map(()=> '');
+  chart.data.datasets[0].data=rows.map(r=>r.power);
+  chart.update('none');
+});
+
+/* ---- stale-data watchdog: if /live stops updating, flag offline ---- */
+setInterval(()=>{ if(lastSeen && Date.now()-lastSeen>15000) showOff('Device not reporting (stale).'); },5000);
+</script>
+</body>
+</html>
