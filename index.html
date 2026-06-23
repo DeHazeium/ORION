@@ -44,14 +44,12 @@ body{
 .strip{display:flex;align-items:center;justify-content:space-between;gap:14px;
   border:1px solid var(--line);background:var(--panel);border-radius:var(--r);
   padding:11px 16px;margin-bottom:14px}
-.ident{display:flex;align-items:center;gap:13px;min-width:0}
-.seal{width:40px;height:40px;border-radius:9px;border:1px solid var(--line-2);
-  background:var(--panel-2);display:flex;align-items:center;justify-content:center;
-  color:var(--accent);font-size:21px;flex-shrink:0;overflow:hidden}
-.logo-img{width:100%;height:100%;object-fit:contain;padding:5px}
-.idtxt h1{margin:0;font-size:17px;font-weight:700;letter-spacing:4px;line-height:1.1}
-.idtxt .mean{margin:2px 0 0;font-size:10px;color:var(--text-2);letter-spacing:.4px;font-weight:500}
-.idtxt .by{margin:1px 0 0;font-size:9.5px;color:var(--text-3);font-weight:500}
+.ident{display:flex;align-items:center;gap:15px;min-width:0}
+.brandlogo{height:48px;display:flex;align-items:center;flex-shrink:0}
+.brandlogo img{height:48px;width:auto;display:block}
+.idtxt h1{margin:0;font-size:19px;font-weight:800;letter-spacing:4px;line-height:1.1}
+.idtxt .mean{margin:3px 0 0;font-size:10px;color:var(--text-2);letter-spacing:.4px;font-weight:500}
+.idtxt .by{margin:3px 0 0;font-size:11.5px;color:var(--text);font-weight:600}
 .idtxt .by a{color:var(--accent-dim);text-decoration:none}
 .idtxt .by a:hover{text-decoration:underline}
 .strip-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -132,11 +130,11 @@ body{
 <div class="shell">
   <div class="strip">
     <div class="ident">
-      <div class="seal"><img id="logo" class="logo-img" alt="ORION logo" onerror="this.style.display='none';this.parentElement.innerHTML='&#9889;'"></div>
+      <div class="brandlogo"><img id="logo" alt="UiTM logo" onerror="this.style.display='none'"></div>
       <div class="idtxt">
         <h1>ORION</h1>
         <p class="mean">Optimized Real-time Interface for Output Networks</p>
-        <p class="by">Made by Muhammad Irfan &middot; <a href="https://instagram.com/almade.fan" target="_blank" rel="noopener">@almade.fan</a></p>
+        <p class="by">Created by Muhammad Irfan &nbsp;|&nbsp; Faculty of Electrical Engineering</p>
       </div>
     </div>
     <div class="strip-right">
