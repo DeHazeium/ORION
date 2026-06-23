@@ -48,18 +48,23 @@ body{
   text-decoration:none;border:1px solid var(--line);background:var(--well);
   padding:8px 13px;border-radius:7px;transition:.18s}
 .back:hover{border-color:var(--line-2);color:var(--text)}
-.uitm{display:flex;align-items:center;gap:10px}
-.uitm img{height:38px;width:auto;display:block}
-.uitm .ph{height:38px;width:90px;border:1px dashed var(--line-2);border-radius:6px;
-  display:flex;align-items:center;justify-content:center;font-family:var(--mono);
-  font-size:8px;color:var(--text-3);text-align:center;line-height:1.2}
+.strip-end{display:flex;align-items:center;gap:10px}
+.brandlogo{width:40px;height:40px;border-radius:9px;border:1px solid var(--line-2);
+  background:var(--panel-2);display:flex;align-items:center;justify-content:center;
+  color:var(--accent);font-size:20px;overflow:hidden}
+.brandlogo img{width:100%;height:100%;object-fit:contain;padding:5px}
+.tbtn{width:40px;height:40px;border-radius:9px;border:1px solid var(--line);
+  background:var(--well);color:var(--text);cursor:pointer;font-size:15px;
+  display:flex;align-items:center;justify-content:center;transition:.18s}
+.tbtn:hover{border-color:var(--line-2)}
 
 /* hero header */
 .hero{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);
   padding:30px 28px;margin-bottom:14px;text-align:center}
 .hero .seal{width:60px;height:60px;border-radius:14px;border:1px solid var(--line-2);
   background:var(--panel-2);display:flex;align-items:center;justify-content:center;
-  color:var(--accent);font-size:30px;margin:0 auto 16px}
+  color:var(--accent);font-size:30px;margin:0 auto 16px;overflow:hidden}
+.hero .seal img{width:100%;height:100%;object-fit:contain;padding:8px}
 .hero h1{margin:0;font-size:30px;font-weight:800;letter-spacing:6px}
 .hero .mean{margin:8px 0 0;font-family:var(--mono);font-size:12px;color:var(--text-2);letter-spacing:.5px}
 .hero .tag{margin:16px auto 0;max-width:560px;font-size:14px;line-height:1.7;color:var(--text-2)}
@@ -106,14 +111,14 @@ body{
 
   <div class="strip">
     <a class="back" href="index.html">&#8592; Back to console</a>
-    <div class="uitm">
-      <img src="images/logo.png" alt="UiTM logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="ph" style="display:none">UiTM<br>logo.png</div>
+    <div class="strip-end">
+      <div class="brandlogo"><img id="logo" alt="ORION logo" onerror="this.style.display='none';this.parentElement.innerHTML='&#9889;'"></div>
+      <button class="tbtn" id="themeBtn" aria-label="Toggle theme">&#9789;</button>
     </div>
   </div>
 
   <div class="hero">
-    <div class="seal">&#9889;</div>
+    <div class="seal"><img id="logoHero" alt="ORION logo" onerror="this.style.display='none';this.parentElement.innerHTML='&#9889;'"></div>
     <h1>ORION</h1>
     <p class="mean">Optimized Real-time Interface for Output Networks</p>
     <p class="tag">An IoT energy-monitoring system that measures live mains power with a PZEM-004T sensor on an ESP32, streams readings to the cloud in real time, and calculates electricity cost against the Sarawak Energy domestic tariff &mdash; viewable from anywhere on this dashboard.</p>
@@ -149,10 +154,22 @@ body{
 </div>
 
 <script>
-  // keep the same theme the user picked on the dashboard, if any
-  try{var t=localStorage.getItem('orion-theme');}catch(e){}
-  // localStorage may be unavailable; default dark either way
-  document.body.dataset.theme = (typeof t==='string'&&t) ? t : 'dark';
+  var body=document.body, tBtn=document.getElementById('themeBtn');
+  function applyLogos(t){
+    var src = t==='dark' ? 'images/logo_dark.png' : 'images/logo_light.png';
+    ['logo','logoHero'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.src=src;
+    });
+  }
+  function setTheme(t){
+    body.dataset.theme=t;
+    tBtn.innerHTML = t==='dark' ? '\u263D' : '\u2600';
+    applyLogos(t);
+    try{localStorage.setItem('orion-theme',t);}catch(e){}
+  }
+  tBtn.onclick=function(){ setTheme(body.dataset.theme==='dark'?'light':'dark'); };
+  // load saved theme (matches the dashboard), default dark
+  (function(){var t='dark';try{var s=localStorage.getItem('orion-theme');if(s)t=s;}catch(e){}setTheme(t);})();
 </script>
 </body>
 </html>
